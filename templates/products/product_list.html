@@ -95,11 +95,85 @@
 <div id="products" class="container mx-auto px-4 py-8">
     <div class="flex flex-col md:flex-row gap-8">
         <!-- Sidebar Filters -->
-        <aside class="w-full lg:w-64 bg-white p-4 md:p-6 rounded-lg border border-gray-200 h-fit sticky top-4">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-semibold">Filter:</h2>
-                <button onclick="clearFilters()" class="text-sm text-gray-600 hover:text-gray-800">Reset</button>
+        <aside class="w-full lg:w-64">
+            <!-- Category Carousel - Quick Search (Above Filter) -->
+            {% if all_categories %}
+            <div class="bg-white p-4 rounded-lg border border-gray-200 mb-4" x-data="{ 
+                scrollPosition: 0,
+                scrollAmount: 300,
+                scrollContainer: null,
+                init() {
+                    this.scrollContainer = this.$refs.categoryScroll;
+                },
+                scrollLeft() {
+                    if (this.scrollContainer) {
+                        this.scrollContainer.scrollBy({ left: -this.scrollAmount, behavior: 'smooth' });
+                    }
+                },
+                scrollRight() {
+                    if (this.scrollContainer) {
+                        this.scrollContainer.scrollBy({ left: this.scrollAmount, behavior: 'smooth' });
+                    }
+                }
+            }">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-semibold text-gray-900">Quick Search</h3>
+                    <div class="flex gap-2">
+                        <button 
+                            @click="scrollLeft()"
+                            class="p-1.5 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors shadow-md"
+                            aria-label="Scroll left">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <button 
+                            @click="scrollRight()"
+                            class="p-1.5 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors shadow-md"
+                            aria-label="Scroll right">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div 
+                        x-ref="categoryScroll"
+                        class="flex gap-3 overflow-x-auto scrollbar-hide pb-2 scroll-smooth"
+                        style="scrollbar-width: none; -ms-overflow-style: none;">
+                        <style>
+                            .scrollbar-hide::-webkit-scrollbar {
+                                display: none;
+                            }
+                        </style>
+                        {% for category in all_categories %}
+                            <a href="{% url 'products:category_detail' category.slug %}" 
+                               class="flex-shrink-0 bg-gray-50 rounded-lg border border-gray-200 p-3 hover:border-orange-400 hover:shadow-md hover:bg-white transition-all group text-center min-w-[120px]">
+                                <div class="mb-2">
+                                    <div class="w-12 h-12 mx-auto bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors">
+                                        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 class="font-semibold text-xs text-gray-900 group-hover:text-orange-600 transition-colors mb-1 line-clamp-2">
+                                    {{ category.name }}
+                                </h3>
+                                <p class="text-xs text-gray-500">{{ category.product_count }}</p>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
+            {% endif %}
+            
+            <!-- Filter Section -->
+            <div class="bg-white p-4 md:p-6 rounded-lg border border-gray-200 h-fit sticky top-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold">Filter:</h2>
+                    <button onclick="clearFilters()" class="text-sm text-gray-600 hover:text-gray-800">Reset</button>
+                </div>
             
             <form method="get" id="filter-form" class="space-y-6">
                 <!-- Search -->
@@ -158,81 +232,11 @@
                     Apply Filters
                 </button>
             </form>
+            </div>
         </aside>
 
         <!-- Main Content -->
         <div class="flex-1">
-            <!-- Category Carousel - Quick Search -->
-            {% if all_categories %}
-            <div class="mb-6" x-data="{ 
-                scrollPosition: 0,
-                scrollAmount: 300,
-                scrollContainer: null,
-                init() {
-                    this.scrollContainer = this.$refs.categoryScroll;
-                },
-                scrollLeft() {
-                    if (this.scrollContainer) {
-                        this.scrollContainer.scrollBy({ left: -this.scrollAmount, behavior: 'smooth' });
-                    }
-                },
-                scrollRight() {
-                    if (this.scrollContainer) {
-                        this.scrollContainer.scrollBy({ left: this.scrollAmount, behavior: 'smooth' });
-                    }
-                }
-            }">
-                <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-lg font-semibold text-gray-900">Quick Search by Category</h3>
-                    <div class="flex gap-2">
-                        <button 
-                            @click="scrollLeft()"
-                            class="p-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors shadow-md"
-                            aria-label="Scroll left">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                            </svg>
-                        </button>
-                        <button 
-                            @click="scrollRight()"
-                            class="p-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors shadow-md"
-                            aria-label="Scroll right">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="relative">
-                    <div 
-                        x-ref="categoryScroll"
-                        class="flex gap-4 overflow-x-auto scrollbar-hide pb-4 scroll-smooth"
-                        style="scrollbar-width: none; -ms-overflow-style: none;">
-                        <style>
-                            .scrollbar-hide::-webkit-scrollbar {
-                                display: none;
-                            }
-                        </style>
-                        {% for category in all_categories %}
-                            <a href="{% url 'products:category_detail' category.slug %}" 
-                               class="flex-shrink-0 bg-white rounded-lg border border-gray-200 p-4 hover:border-orange-400 hover:shadow-lg transition-all group text-center min-w-[140px] md:min-w-[160px]">
-                                <div class="mb-3">
-                                    <div class="w-14 h-14 md:w-16 md:h-16 mx-auto bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-                                        <svg class="w-7 h-7 md:w-8 md:h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <h3 class="font-semibold text-sm text-gray-900 group-hover:text-orange-600 transition-colors mb-1 line-clamp-2">
-                                    {{ category.name }}
-                                </h3>
-                                <p class="text-xs text-gray-500">{{ category.product_count }} products</p>
-                            </a>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            {% endif %}
             <!-- Sort and Results Count -->
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <p class="text-gray-600 text-sm">

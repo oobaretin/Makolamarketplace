@@ -246,7 +246,7 @@
         <div class="flex-1 min-w-0 w-full">
             <!-- Product Grid - 3 Columns Minimal Style (Below Carousel, Next to Filter) -->
             {% if page_obj %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 w-full">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
                     {% for product in page_obj %}
                         <div class="bg-white border border-gray-200 hover:border-gray-300 transition-colors group">
                             <a href="{% url 'products:product_detail' product.slug %}" class="block">

@@ -133,6 +133,12 @@ def product_list_view(request):
         product_count=Count('products', filter=Q(products__is_available=True))
     ).order_by('name'))
     
+    # Debug: Log if categories are empty
+    if not categories:
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.warning(f"No active categories found in database. Total categories: {Category.objects.count()}")
+    
     # Calculate max price for filter
     max_product_price = Product.objects.filter(is_available=True).aggregate(
         max_price=Max('price')
@@ -140,7 +146,7 @@ def product_list_view(request):
     
     context = {
         'page_obj': page_obj,
-        'categories': categories,
+        'categories': categories if categories else [],  # Ensure it's never None
         'search_query': search_query,
         'selected_category': category_slug,
         'min_price': min_price,

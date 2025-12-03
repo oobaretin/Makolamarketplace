@@ -9,6 +9,9 @@ python manage.py migrate --noinput
 echo "Collecting static files..."
 python manage.py collectstatic --noinput
 
+echo "Creating categories (if not exists)..."
+python manage.py create_categories || echo "Categories already exist or error occurred"
+
 echo "Creating superuser (if not exists)..."
 python manage.py create_superuser_auto
 

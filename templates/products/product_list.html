@@ -173,7 +173,7 @@
     {% endif %}
     
     <!-- Filter and Products Section - Below Carousel -->
-    <div class="flex flex-col md:flex-row gap-8">
+    <div class="flex flex-col lg:flex-row gap-8 w-full">
         <!-- Sidebar Filters -->
         <aside class="w-full lg:w-64">
             <div class="bg-white p-4 md:p-6 rounded-lg border border-gray-200 h-fit sticky top-4">
@@ -243,11 +243,11 @@
         </aside>
 
         <!-- Main Content - Products Grid -->
-        <div class="flex-1 min-w-0">
+        <div class="flex-1 min-w-0 w-full">
             <!-- Product Grid - 3 Columns Minimal Style (Below Carousel, Next to Filter) -->
             {% if page_obj %}
                 {% if page_obj.object_list %}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 w-full">
                         {% for product in page_obj %}
                         <div class="bg-white border border-gray-200 hover:border-gray-300 transition-colors group">
                             <a href="{% url 'products:product_detail' product.slug %}" class="block">

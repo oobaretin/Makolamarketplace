@@ -48,3 +48,5 @@ class Command(BaseCommand):
         
         self.stdout.write(self.style.SUCCESS(f'\nMigration complete! Migrated {migrated_count} products.'))
 
+
+

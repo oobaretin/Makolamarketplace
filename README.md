@@ -254,3 +254,5 @@ For support, contact the development team or visit the store at:
 - Stripe for payment processing
 - All contributors and testers
 
+
+

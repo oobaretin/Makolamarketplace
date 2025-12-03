@@ -29,3 +29,5 @@ class EmailVerificationTokenAdmin(admin.ModelAdmin):
     search_fields = ['user__email', 'token']
     readonly_fields = ['token', 'created_at']
 
+
+

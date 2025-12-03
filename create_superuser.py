@@ -24,3 +24,5 @@ if not User.objects.filter(is_superuser=True).exists():
 else:
     print("Superuser already exists.")
 
+
+

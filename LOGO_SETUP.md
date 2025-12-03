@@ -90,3 +90,5 @@ To change logo size, edit `templates/base.html`:
 - Clear browser cache if logo doesn't update
 - Check browser console for 404 errors
 
+
+

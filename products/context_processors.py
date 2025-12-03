@@ -17,3 +17,4 @@ def categories(request):
         'all_categories': categories_list,
     }
 
+

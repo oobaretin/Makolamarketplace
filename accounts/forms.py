@@ -101,3 +101,5 @@ class CustomAuthenticationForm(AuthenticationForm):
         self.fields['username'].widget.attrs.update({'class': 'form-input'})
         self.fields['password'].widget.attrs.update({'class': 'form-input'})
 
+
+

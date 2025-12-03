@@ -26,3 +26,5 @@ class NewsletterSubscriberAdmin(admin.ModelAdmin):
         self.message_user(request, f'{queryset.count()} subscribers deactivated.')
     deactivate_subscribers.short_description = 'Deactivate selected subscribers'
 
+
+

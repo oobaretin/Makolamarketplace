@@ -105,3 +105,5 @@ class ReviewAdmin(admin.ModelAdmin):
     search_fields = ['product__name', 'user__email', 'comment']
     readonly_fields = ['created_at', 'updated_at']
 
+
+

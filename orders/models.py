@@ -126,3 +126,5 @@ class OrderItem(models.Model):
         """Calculate subtotal for this item."""
         return self.price * self.quantity
 
+
+

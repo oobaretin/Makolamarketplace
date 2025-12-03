@@ -152,3 +152,5 @@ The carousel we implemented is a great choice because:
 
 Would you like me to implement any of these alternatives instead?
 
+
+

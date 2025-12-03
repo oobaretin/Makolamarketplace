@@ -116,3 +116,5 @@ class Command(BaseCommand):
             f'\nCategories update complete! Created: {created_count}, Updated: {updated_count}'
         ))
 
+
+

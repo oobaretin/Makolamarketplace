@@ -132,3 +132,4 @@ class Command(BaseCommand):
             product_count = cat.products.count()
             self.stdout.write(f'  • {cat.name} ({product_count} products)')
 
+

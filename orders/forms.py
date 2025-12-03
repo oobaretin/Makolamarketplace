@@ -52,3 +52,5 @@ class CheckoutForm(forms.ModelForm):
             Submit('submit', 'Proceed to Payment', css_class='btn btn-primary w-full')
         )
 
+
+

@@ -9,3 +9,5 @@ class OrdersConfig(AppConfig):
     name = 'orders'
     verbose_name = 'Orders'
 
+
+

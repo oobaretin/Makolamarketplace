@@ -9,3 +9,5 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'makola.settings')
 
 application = get_asgi_application()
 
+
+

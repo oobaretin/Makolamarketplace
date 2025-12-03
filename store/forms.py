@@ -60,3 +60,5 @@ class NewsletterForm(forms.ModelForm):
             Submit('submit', 'Subscribe', css_class='btn btn-primary')
         )
 
+
+

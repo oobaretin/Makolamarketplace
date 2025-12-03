@@ -9,3 +9,5 @@ class StoreConfig(AppConfig):
     name = 'store'
     verbose_name = 'Store'
 
+
+

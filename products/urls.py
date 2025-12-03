@@ -13,3 +13,5 @@ urlpatterns = [
     path('product/<slug:slug>/review/', views.add_review_view, name='add_review'),
 ]
 
+
+

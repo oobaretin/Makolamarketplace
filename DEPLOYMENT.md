@@ -234,3 +234,5 @@ tail -f /var/log/makola/error.log
 
 For issues or questions, contact the development team.
 
+
+

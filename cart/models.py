@@ -72,3 +72,5 @@ class CartItem(models.Model):
         """Calculate subtotal for this item."""
         return self.price_at_addition * self.quantity
 
+
+

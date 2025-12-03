@@ -127,3 +127,5 @@ Visit: http://localhost:8000
 - Check DEPLOYMENT.md for production setup
 - Review Django documentation: https://docs.djangoproject.com/
 
+
+

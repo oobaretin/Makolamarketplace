@@ -40,3 +40,5 @@ But **it's not necessary** - JPEG works perfectly fine for hero images!
 
 The real issue was **spaces in filenames**, not the format. We've renamed the files to use underscores instead of spaces, which should fix the loading issue.
 
+
+

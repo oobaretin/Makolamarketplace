@@ -15,3 +15,5 @@ def cart(request):
         'cart_item_count': cart_obj.get_item_count() if cart_obj else 0,
     }
 
+
+

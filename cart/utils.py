@@ -186,3 +186,5 @@ def clear_cart(request):
         request.session.modified = True
         return True
 
+
+

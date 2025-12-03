@@ -107,3 +107,5 @@ class OrderItemAdmin(admin.ModelAdmin):
         return f"${obj.get_subtotal():.2f}"
     get_subtotal.short_description = 'Subtotal'
 
+
+

@@ -28,7 +28,11 @@
                 <!-- Logo - Left aligned on both mobile and desktop -->
                 <div class="flex items-center flex-shrink-0 mr-auto">
                     <a href="{% url 'products:product_list' %}" class="flex items-center hover:opacity-90 transition-opacity">
-                        <img src="{% static 'images/Bold.png' %}" alt="Makola Marketplace Logo" class="h-28 md:h-32 w-auto min-w-[200px] md:min-w-[300px] max-w-[280px] md:max-w-none object-contain drop-shadow-md">
+                        <img src="{% static 'logo/Bold.png' %}" 
+                             alt="Makola Marketplace Logo" 
+                             class="h-28 md:h-32 w-auto min-w-[200px] md:min-w-[300px] max-w-[280px] md:max-w-none object-contain drop-shadow-md"
+                             onload="console.log('Logo loaded successfully:', this.src)"
+                             onerror="console.error('Logo failed to load:', this.src); this.src='{% static 'logo/Bold.png' %}';">
                     </a>
                 </div>
                 

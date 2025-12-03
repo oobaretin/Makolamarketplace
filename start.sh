@@ -12,6 +12,9 @@ python manage.py collectstatic --noinput
 echo "Creating categories (if not exists)..."
 python manage.py create_categories || echo "Categories already exist or error occurred"
 
+echo "Seeding products (if database is empty)..."
+python manage.py seed_products || echo "Products already exist or error occurred"
+
 echo "Creating superuser (if not exists)..."
 python manage.py create_superuser_auto
 

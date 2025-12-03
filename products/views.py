@@ -28,12 +28,49 @@ def product_list_view(request):
         if os.path.exists(logo_dir):
             import glob
             from django.templatetags.static import static
+            
+            # Images to exclude
+            excluded_images = [
+                'Image_12-2-25_at_7.25_PM.jpg',  # Lady in grocery/shopping - exclude
+            ]
+            
+            # Priority images to include - store exterior should be first
+            priority_images = [
+                'Image_12-2-25_at_3.39_PM.jpg',  # Store exterior - FIRST
+                'Image_12-2-25_at_4.11_PM.jpg',  # Kitchen lady attending to customer - KEEP
+                'Image_12-2-25_at_3.57_PM_2.jpg',  # Cooked food area
+                'Image_12-2-25_at_4.11_PM_2.jpg',  # Cooked food area
+                # Man with mask - will be added from other images if not in priority
+            ]
+            
+            # First, add priority images (store exterior will be first)
+            for priority_img in priority_images:
+                priority_path = os.path.join(logo_dir, priority_img)
+                if os.path.exists(priority_path):
+                    static_path = f'logo/{priority_img}'
+                    hero_images.append(static(static_path))
+            
+            # Then add other images, excluding excluded images and already added priority images
+            # This will include the man with mask image if it exists
             image_files = sorted(glob.glob(os.path.join(logo_dir, '*.jpg')))
-            for img_file in image_files[:10]:  # Limit to 10 images
+            for img_file in image_files:
                 filename = os.path.basename(img_file)
-                # Use Django's static function to generate proper URLs
+                
+                # Skip excluded images and already added priority images
+                if filename in excluded_images or filename in priority_images:
+                    continue
+                
+                # Limit total to 10 images
+                if len(hero_images) >= 10:
+                    break
+                    
                 static_path = f'logo/{filename}'
                 hero_images.append(static(static_path))
+            
+            # Remove index 2 (3rd image, 0-indexed)
+            if len(hero_images) > 2:
+                hero_images.pop(2)
+                
     except Exception as e:
         # If there's any error, just use empty list
         import traceback

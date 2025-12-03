@@ -172,14 +172,14 @@
     </div>
     {% endif %}
     
-    <!-- Filter and Products Section -->
-    <div class="flex flex-col md:flex-row gap-8">
+    <!-- Filter and Products Section - Below Carousel -->
+    <div class="flex flex-col md:flex-row gap-8 mt-0">
         <!-- Sidebar Filters -->
         <aside class="w-full lg:w-64 bg-white p-4 md:p-6 rounded-lg border border-gray-200 h-fit sticky top-4">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-semibold">Filter:</h2>
-                    <button onclick="clearFilters()" class="text-sm text-gray-600 hover:text-gray-800">Reset</button>
-                </div>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold">Filter:</h2>
+                <button onclick="clearFilters()" class="text-sm text-gray-600 hover:text-gray-800">Reset</button>
+            </div>
             
             <form method="get" id="filter-form" class="space-y-6">
                 <!-- Search -->
@@ -241,29 +241,9 @@
             </div>
         </aside>
 
-        <!-- Main Content -->
+        <!-- Main Content - Products Grid -->
         <div class="flex-1">
-            <!-- Sort and Results Count -->
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                <p class="text-gray-600 text-sm">
-                    {{ page_obj.paginator.count }} products
-                </p>
-                <div class="flex items-center gap-2">
-                    <label class="text-sm text-gray-600">Sort by:</label>
-                    <select name="sort" onchange="updateSort(this.value)" class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-500">
-                        <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Featured</option>
-                        <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Best selling</option>
-                        <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Alphabetically, A-Z</option>
-                        <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Alphabetically, Z-A</option>
-                        <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>Price, low to high</option>
-                        <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>Price, high to low</option>
-                        <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Date, old to new</option>
-                        <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Date, new to old</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Product Grid - 3 Columns Minimal Style -->
+            <!-- Product Grid - 3 Columns Minimal Style (Below Carousel, Next to Filter) -->
             {% if page_obj %}
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
                     {% for product in page_obj %}

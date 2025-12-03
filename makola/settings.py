@@ -71,27 +71,57 @@ TEMPLATES = [
 WSGI_APPLICATION = 'makola.wsgi.application'
 
 # Database
-# Use SQLite if DB_NAME is not set (for quick start), otherwise use PostgreSQL
-DB_NAME = config('DB_NAME', default='')
-if DB_NAME:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': DB_NAME,
-            'USER': config('DB_USER', default='postgres'),
-            'PASSWORD': config('DB_PASSWORD', default=''),
-            'HOST': config('DB_HOST', default='localhost'),
-            'PORT': config('DB_PORT', default='5432'),
+# Support DATABASE_URL (Railway, Render, Heroku) or individual DB settings
+try:
+    import dj_database_url
+    DATABASE_URL = config('DATABASE_URL', default='')
+    if DATABASE_URL:
+        # Use DATABASE_URL if available (Railway, Render, Heroku)
+        DATABASES = {
+            'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
         }
-    }
-else:
-    # SQLite for quick start/development
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+    else:
+        # Fall back to individual DB settings or SQLite
+        DB_NAME = config('DB_NAME', default='')
+        if DB_NAME:
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.postgresql',
+                    'NAME': DB_NAME,
+                    'USER': config('DB_USER', default='postgres'),
+                    'PASSWORD': config('DB_PASSWORD', default=''),
+                    'HOST': config('DB_HOST', default='localhost'),
+                    'PORT': config('DB_PORT', default='5432'),
+                }
+            }
+        else:
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.sqlite3',
+                    'NAME': BASE_DIR / 'db.sqlite3',
+                }
+            }
+except ImportError:
+    # Fallback if dj-database-url is not installed
+    DB_NAME = config('DB_NAME', default='')
+    if DB_NAME:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': DB_NAME,
+                'USER': config('DB_USER', default='postgres'),
+                'PASSWORD': config('DB_PASSWORD', default=''),
+                'HOST': config('DB_HOST', default='localhost'),
+                'PORT': config('DB_PORT', default='5432'),
+            }
         }
-    }
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 
 # Custom User Model
 AUTH_USER_MODEL = 'accounts.User'

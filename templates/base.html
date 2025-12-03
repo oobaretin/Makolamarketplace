@@ -25,8 +25,8 @@
     <nav class="bg-orange-600 text-white shadow-lg" x-data="{ mobileMenuOpen: false }">
         <div class="container mx-auto px-4">
             <div class="flex items-center justify-between h-28 md:h-36 py-2">
-                <!-- Logo -->
-                <div class="flex items-center flex-shrink-0">
+                <!-- Logo - Left aligned on both mobile and desktop -->
+                <div class="flex items-center flex-shrink-0 justify-start">
                     <a href="{% url 'products:product_list' %}" class="flex items-center hover:opacity-90 transition-opacity">
                         <img src="{% static 'logo/logo.png' %}" alt="Makola Marketplace Logo" class="h-28 md:h-32 w-auto min-w-[280px] md:min-w-[400px] max-w-[280px] md:max-w-none object-contain drop-shadow-md" onerror="this.style.display='none';">
                     </a>

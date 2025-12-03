@@ -245,7 +245,7 @@
         <!-- Main Content - Products Grid -->
         <div class="flex-1">
             <!-- Product Grid - 3 Columns Minimal Style (Below Carousel, Next to Filter) -->
-            {% if page_obj and page_obj.object_list %}
+            {% if page_obj %}
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
                     {% for product in page_obj %}
                         <div class="bg-white border border-gray-200 hover:border-gray-300 transition-colors group">

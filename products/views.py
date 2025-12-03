@@ -214,10 +214,16 @@ def category_detail_view(request, slug):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
+    # Get all categories for any filter sidebar (if needed)
+    categories = Category.objects.filter(is_active=True).annotate(
+        product_count=Count('products', filter=Q(products__is_available=True))
+    ).order_by('name')
+    
     context = {
         'category': category,
         'page_obj': page_obj,
         'sort_by': sort_by,
+        'categories': categories,  # Add categories to context
     }
     
     return render(request, 'products/category_detail.html', context)

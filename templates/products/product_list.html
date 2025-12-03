@@ -92,36 +92,6 @@
 </div>
 {% endif %}
 
-<!-- Categories Section -->
-<div class="container mx-auto px-4 py-8 max-w-7xl">
-    <div class="text-center mb-8">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Shop by Category</h2>
-        <p class="text-gray-600">Browse our wide selection of authentic African products</p>
-    </div>
-    {% if all_categories %}
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
-            {% for category in all_categories %}
-                <a href="{% url 'products:category_detail' category.slug %}" 
-                   class="bg-white rounded-lg border border-gray-200 p-4 md:p-6 hover:border-orange-400 hover:shadow-lg transition-all group text-center">
-                    <div class="mb-3">
-                        <div class="w-16 h-16 md:w-20 md:h-20 mx-auto bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors">
-                            <svg class="w-8 h-8 md:w-10 md:h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <h3 class="font-semibold text-sm md:text-base text-gray-900 group-hover:text-orange-600 transition-colors mb-1">
-                        {{ category.name }}
-                    </h3>
-                    <p class="text-xs text-gray-500">{{ category.product_count }} products</p>
-                </a>
-            {% empty %}
-                <div class="col-span-full text-center text-gray-500 py-8">No categories available</div>
-            {% endfor %}
-        </div>
-    {% endif %}
-</div>
-
 <div id="products" class="container mx-auto px-4 py-8">
     <div class="flex flex-col md:flex-row gap-8">
         <!-- Sidebar Filters -->
@@ -192,6 +162,77 @@
 
         <!-- Main Content -->
         <div class="flex-1">
+            <!-- Category Carousel - Quick Search -->
+            {% if all_categories %}
+            <div class="mb-6" x-data="{ 
+                scrollPosition: 0,
+                scrollAmount: 300,
+                scrollContainer: null,
+                init() {
+                    this.scrollContainer = this.$refs.categoryScroll;
+                },
+                scrollLeft() {
+                    if (this.scrollContainer) {
+                        this.scrollContainer.scrollBy({ left: -this.scrollAmount, behavior: 'smooth' });
+                    }
+                },
+                scrollRight() {
+                    if (this.scrollContainer) {
+                        this.scrollContainer.scrollBy({ left: this.scrollAmount, behavior: 'smooth' });
+                    }
+                }
+            }">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-lg font-semibold text-gray-900">Quick Search by Category</h3>
+                    <div class="flex gap-2">
+                        <button 
+                            @click="scrollLeft()"
+                            class="p-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors shadow-md"
+                            aria-label="Scroll left">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <button 
+                            @click="scrollRight()"
+                            class="p-2 bg-orange-600 text-white rounded-full hover:bg-orange-700 transition-colors shadow-md"
+                            aria-label="Scroll right">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div 
+                        x-ref="categoryScroll"
+                        class="flex gap-4 overflow-x-auto scrollbar-hide pb-4 scroll-smooth"
+                        style="scrollbar-width: none; -ms-overflow-style: none;">
+                        <style>
+                            .scrollbar-hide::-webkit-scrollbar {
+                                display: none;
+                            }
+                        </style>
+                        {% for category in all_categories %}
+                            <a href="{% url 'products:category_detail' category.slug %}" 
+                               class="flex-shrink-0 bg-white rounded-lg border border-gray-200 p-4 hover:border-orange-400 hover:shadow-lg transition-all group text-center min-w-[140px] md:min-w-[160px]">
+                                <div class="mb-3">
+                                    <div class="w-14 h-14 md:w-16 md:h-16 mx-auto bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors">
+                                        <svg class="w-7 h-7 md:w-8 md:h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 class="font-semibold text-sm text-gray-900 group-hover:text-orange-600 transition-colors mb-1 line-clamp-2">
+                                    {{ category.name }}
+                                </h3>
+                                <p class="text-xs text-gray-500">{{ category.product_count }} products</p>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
             <!-- Sort and Results Count -->
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <p class="text-gray-600 text-sm">

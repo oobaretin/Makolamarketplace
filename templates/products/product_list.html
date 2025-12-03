@@ -246,8 +246,9 @@
         <div class="flex-1 min-w-0">
             <!-- Product Grid - 3 Columns Minimal Style (Below Carousel, Next to Filter) -->
             {% if page_obj %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-                    {% for product in page_obj %}
+                {% if page_obj.object_list %}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                        {% for product in page_obj %}
                         <div class="bg-white border border-gray-200 hover:border-gray-300 transition-colors group">
                             <a href="{% url 'products:product_detail' product.slug %}" class="block">
                                 <div class="relative aspect-square overflow-hidden bg-gray-50">
@@ -314,11 +315,11 @@
                                 </div>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
+                        {% endfor %}
+                    </div>
 
-                <!-- Pagination -->
-                {% if page_obj.has_other_pages %}
+                    <!-- Pagination -->
+                    {% if page_obj.has_other_pages %}
                     <div class="mt-8 flex justify-center">
                         <nav class="flex space-x-2">
                             {% if page_obj.has_previous %}
@@ -341,10 +342,15 @@
                             {% endif %}
                         </nav>
                     </div>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center py-12">
+                        <p class="text-gray-600 text-lg">No products found. Try adjusting your filters.</p>
+                    </div>
                 {% endif %}
             {% else %}
                 <div class="text-center py-12">
-                    <p class="text-gray-600 text-lg">No products found. Try adjusting your filters.</p>
+                    <p class="text-gray-600 text-lg">Loading products...</p>
                 </div>
             {% endif %}
         </div>

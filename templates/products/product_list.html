@@ -179,7 +179,7 @@
                                 {{ category.name }} ({{ category.product_count }})
                             </option>
                         {% empty %}
-                            <option value="" disabled>No categories available</option>
+                            <option value="" disabled>No categories available (Debug: categories={{ categories|length }})</option>
                         {% endfor %}
                     </select>
                 </div>

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}More Than Shopping: A Community Experience - Makola Marketplace{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12 max-w-5xl">
+    <!-- Breadcrumb -->
+    <nav class="mb-6 text-sm">
+        <a href="{% url 'products:product_list' %}" class="text-orange-600 hover:text-orange-700">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-gray-600">Blog</span>
+        <span class="mx-2">/</span>
+        <span class="text-gray-600">Community Experience</span>
+    </nav>
+
+    <!-- Blog Post -->
+    <article class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Image -->
+        <div class="relative w-full h-[500px] md:h-[600px] overflow-hidden">
+            <img src="{% static 'logo/Image_12-2-25_at_7.25_PM.jpg' %}" 
+                 alt="Shopping Experience at Makola Marketplace" 
+                 class="w-full h-full object-cover">
+        </div>
+        
+        <!-- Content -->
+        <div class="p-8 md:p-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                More Than Shopping: A Community Experience
+            </h1>
+            
+            <div class="prose prose-lg max-w-none">
+                <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                    At Makola Marketplace, shopping is more than just picking up groceries—it's an immersive cultural experience. Our store is designed to make you feel at home, with friendly staff ready to help you discover new ingredients, share cooking tips, and connect you with the flavors of Africa.
+                </p>
+                
+                <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                    As you browse our aisles, you'll find everything from staple grains and fresh produce to specialty spices and traditional snacks. Our knowledgeable team understands the importance of authentic ingredients in African cooking and is always available to guide you in finding exactly what you need for your favorite recipes.
+                </p>
+                
+                <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                    We've created a welcoming space where families can shop together, where friends can catch up, and where the African community in Houston can find a taste of home. Every visit to Makola Marketplace is an opportunity to explore, discover, and connect with the rich culinary heritage of Africa.
+                </p>
+                
+                <p class="text-gray-600 mb-8 leading-relaxed text-lg">
+                    Join us and experience shopping the way it should be—personal, authentic, and filled with the warmth of community. We're here to make your culinary journey memorable. Our store is more than a marketplace; it's a gathering place where stories are shared, recipes are exchanged, and the bonds of community are strengthened.
+                </p>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-200">
+                <a href="{% url 'products:product_list' %}" class="inline-flex items-center text-orange-600 font-semibold hover:text-orange-700 transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </article>
+</div>
+{% endblock %}
+

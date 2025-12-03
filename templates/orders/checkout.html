@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Checkout - Makola Marketplace{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Checkout</h1>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Checkout Form -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-2xl font-bold mb-6">Shipping Information</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {% crispy form %}
+                </form>
+            </div>
+        </div>
+        
+        <!-- Order Summary -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
+                <h2 class="text-2xl font-bold mb-6">Order Summary</h2>
+                
+                <div class="space-y-4 mb-6">
+                    {% for item in cart_items %}
+                        <div class="flex justify-between items-center border-b pb-3">
+                            <div class="flex-1">
+                                <p class="font-semibold">{{ item.product.name }}</p>
+                                <p class="text-sm text-gray-600">Qty: {{ item.quantity }}</p>
+                            </div>
+                            <p class="font-semibold">${{ item.subtotal }}</p>
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="border-t pt-4 flex justify-between">
+                        <span class="text-xl font-bold">Total:</span>
+                        <span class="text-xl font-bold text-orange-600">${{ cart_total }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

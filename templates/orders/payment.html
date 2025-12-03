@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment - Makola Marketplace{% endblock %}
+
+{% block extra_css %}
+<script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 max-w-2xl">
+    <h1 class="text-3xl font-bold mb-8">Complete Your Payment</h1>
+    
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-xl font-bold mb-4">Order #{{ order.order_number }}</h2>
+        <p class="text-gray-600 mb-2">Total Amount: <span class="text-2xl font-bold text-orange-600">${{ order.total_amount }}</span></p>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-bold mb-4">Payment Details</h2>
+        <form id="payment-form">
+            <div id="card-element" class="mb-4 p-4 border border-gray-300 rounded-lg">
+                <!-- Stripe Elements will create form elements here -->
+            </div>
+            
+            <div id="card-errors" role="alert" class="text-red-600 mb-4"></div>
+            
+            <button id="submit-button" 
+                    class="w-full bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 font-semibold">
+                Pay ${{ order.total_amount }}
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+const stripe = Stripe('{{ stripe_public_key }}');
+const elements = stripe.elements();
+const cardElement = elements.create('card');
+cardElement.mount('#card-element');
+
+const form = document.getElementById('payment-form');
+const submitButton = document.getElementById('submit-button');
+const cardErrors = document.getElementById('card-errors');
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    
+    submitButton.disabled = true;
+    submitButton.textContent = 'Processing...';
+    
+    const {error, paymentIntent} = await stripe.confirmCardPayment('{{ client_secret }}', {
+        payment_method: {
+            card: cardElement,
+        }
+    });
+    
+    if (error) {
+        cardErrors.textContent = error.message;
+        submitButton.disabled = false;
+        submitButton.textContent = 'Pay ${{ order.total_amount }}';
+    } else {
+        // Payment succeeded
+        window.location.href = "{% url 'orders:payment_success' order.order_number %}";
+    }
+});
+</script>
+{% endblock %}
+

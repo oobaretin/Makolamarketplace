@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - Makola Marketplace{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold mb-8 text-center">About Makola Marketplace</h1>
+        
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-2xl font-bold mb-4">Welcome to Makola Marketplace</h2>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Makola Marketplace is your premier destination for authentic African groceries, spices, and products 
+                in Houston, Texas. We are dedicated to bringing the rich flavors and traditions of Africa to your 
+                kitchen, offering a wide selection of high-quality products sourced directly from African countries.
+            </p>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Our store specializes in providing authentic African foods including grains, spices, fresh produce, 
+                frozen foods, beverages, snacks, cooking oils, flours, and packaged goods. Whether you're looking 
+                for traditional ingredients to recreate your favorite African dishes or exploring new flavors, we 
+                have everything you need.
+            </p>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-2xl font-bold mb-4">Our Mission</h2>
+            <p class="text-gray-700 leading-relaxed">
+                To provide the African community in Houston and beyond with access to authentic, high-quality 
+                African products while preserving and sharing the rich culinary traditions of the continent.
+            </p>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-2xl font-bold mb-4">Store Information</h2>
+            <div class="space-y-4">
+                <div>
+                    <h3 class="font-semibold mb-2">Location</h3>
+                    <p class="text-gray-700">9051 W Bellfort Ave</p>
+                    <p class="text-gray-700">Houston, TX 77031</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">Phone</h3>
+                    <p class="text-gray-700">
+                        <a href="tel:+17139954343" class="text-orange-600 hover:text-orange-700">(713) 995-4343</a>
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">Store Hours</h3>
+                    <div class="space-y-1 text-gray-700">
+                        <p><strong>Monday:</strong> 9:00 AM - 9:00 PM</p>
+                        <p><strong>Tuesday:</strong> 9:00 AM - 9:00 PM</p>
+                        <p><strong>Wednesday:</strong> 9:00 AM - 9:00 PM</p>
+                        <p><strong>Thursday:</strong> 9:00 AM - 9:00 PM</p>
+                        <p><strong>Friday:</strong> 9:00 AM - 9:00 PM</p>
+                        <p><strong>Saturday:</strong> 9:00 AM - 9:00 PM</p>
+                        <p><strong>Sunday:</strong> 11:00 AM - 9:00 PM</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">Services</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>In-store shopping</li>
+                        <li>Pickup orders</li>
+                        <li>Delivery (coming soon)</li>
+                        <li>Special orders for bulk items</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center">
+            <a href="{% url 'store:contact' %}" 
+               class="inline-block bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 font-semibold mr-4">
+                Contact Us
+            </a>
+            <a href="{% url 'products:product_list' %}" 
+               class="inline-block bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 font-semibold">
+                Shop Now
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmed - Makola Marketplace{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 max-w-2xl">
+    <div class="bg-white rounded-lg shadow-md p-8 text-center">
+        <div class="mb-6">
+            <svg class="w-24 h-24 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </div>
+        
+        <h1 class="text-3xl font-bold mb-4">Order Confirmed!</h1>
+        <p class="text-gray-600 mb-6">Thank you for your order. We've received your payment and will process your order shortly.</p>
+        
+        <div class="bg-gray-50 rounded-lg p-6 mb-6 text-left">
+            <h2 class="text-xl font-bold mb-4">Order Details</h2>
+            <div class="space-y-2">
+                <p><strong>Order Number:</strong> {{ order.order_number }}</p>
+                <p><strong>Total Amount:</strong> <span class="text-orange-600 font-bold">${{ order.total_amount }}</span></p>
+                <p><strong>Status:</strong> <span class="px-3 py-1 rounded {{ order.get_status_display_class }}">{{ order.get_status_display }}</span></p>
+                <p><strong>Email:</strong> {{ order.email }}</p>
+            </div>
+        </div>
+        
+        <div class="flex gap-4 justify-center">
+            <a href="{% url 'orders:order_detail' order.order_number %}" 
+               class="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 font-semibold">
+                View Order Details
+            </a>
+            <a href="{% url 'products:product_list' %}" 
+               class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300 font-semibold">
+                Continue Shopping
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,28 @@
+"""
+Admin configuration for store app.
+"""
+from django.contrib import admin
+from .models import NewsletterSubscriber
+
+
+@admin.register(NewsletterSubscriber)
+class NewsletterSubscriberAdmin(admin.ModelAdmin):
+    """Admin for NewsletterSubscriber model."""
+    list_display = ['email', 'is_active', 'subscribed_at', 'unsubscribed_at']
+    list_filter = ['is_active', 'subscribed_at']
+    search_fields = ['email']
+    readonly_fields = ['subscribed_at', 'unsubscribed_at']
+    actions = ['activate_subscribers', 'deactivate_subscribers']
+
+    def activate_subscribers(self, request, queryset):
+        """Activate selected subscribers."""
+        queryset.update(is_active=True)
+        self.message_user(request, f'{queryset.count()} subscribers activated.')
+    activate_subscribers.short_description = 'Activate selected subscribers'
+
+    def deactivate_subscribers(self, request, queryset):
+        """Deactivate selected subscribers."""
+        queryset.update(is_active=False)
+        self.message_user(request, f'{queryset.count()} subscribers deactivated.')
+    deactivate_subscribers.short_description = 'Deactivate selected subscribers'
+

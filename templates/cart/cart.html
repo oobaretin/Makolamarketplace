@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Shopping Cart - Makola Marketplace{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Shopping Cart</h1>
+    
+    {% if cart_items %}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Cart Items -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    {% for item in cart_items %}
+                        <div class="flex items-center border-b pb-6 mb-6 last:border-0 last:mb-0">
+                            {% if item.product.get_primary_image %}
+                                <img src="{{ item.product.get_primary_image.url }}" alt="{{ item.product.name }}" 
+                                     class="w-24 h-24 object-cover rounded-lg mr-4">
+                            {% else %}
+                                <div class="w-24 h-24 bg-gray-200 rounded-lg mr-4 flex items-center justify-center">
+                                    <span class="text-gray-400 text-xs">No Image</span>
+                                </div>
+                            {% endif %}
+                            
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg mb-2">
+                                    <a href="{% url 'products:product_detail' item.product.slug %}" 
+                                       class="hover:text-orange-600">{{ item.product.name }}</a>
+                                </h3>
+                                <p class="text-gray-600 mb-2">${{ item.price }} each</p>
+                                
+                                <div class="flex items-center gap-4">
+                                    <form method="post" action="{% url 'cart:update_cart' item.product.id %}" class="flex items-center">
+                                        {% csrf_token %}
+                                        <label for="quantity-{{ item.product.id }}" class="mr-2">Qty:</label>
+                                        <input type="number" name="quantity" id="quantity-{{ item.product.id }}" 
+                                               value="{{ item.quantity }}" min="1" max="{{ item.product.stock_quantity }}"
+                                               class="w-20 px-3 py-1 border border-gray-300 rounded-lg mr-2">
+                                        <button type="submit" class="text-orange-600 hover:text-orange-700 text-sm">Update</button>
+                                    </form>
+                                    
+                                    <form method="post" action="{% url 'cart:remove_from_cart' item.product.id %}" class="ml-4">
+                                        {% csrf_token %}
+                                        <button type="submit" class="text-red-600 hover:text-red-700 text-sm">Remove</button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <div class="text-right">
+                                <p class="text-xl font-bold text-orange-600">${{ item.subtotal }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
+                    <h2 class="text-2xl font-bold mb-6">Order Summary</h2>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Subtotal:</span>
+                            <span class="font-semibold">${{ cart_total }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Shipping:</span>
+                            <span class="font-semibold">Calculated at checkout</span>
+                        </div>
+                        <div class="border-t pt-4 flex justify-between">
+                            <span class="text-xl font-bold">Total:</span>
+                            <span class="text-xl font-bold text-orange-600">${{ cart_total }}</span>
+                        </div>
+                    </div>
+                    
+                    <a href="{% url 'orders:checkout' %}" 
+                       class="block w-full bg-orange-600 text-white text-center px-6 py-3 rounded-lg hover:bg-orange-700 font-semibold mb-4">
+                        Proceed to Checkout
+                    </a>
+                    
+                    <a href="{% url 'products:product_list' %}" 
+                       class="block w-full text-center text-orange-600 hover:text-orange-700">
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center py-12">
+            <svg class="w-24 h-24 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <h2 class="text-2xl font-bold mb-4">Your cart is empty</h2>
+            <p class="text-gray-600 mb-6">Start adding products to your cart!</p>
+            <a href="{% url 'products:product_list' %}" 
+               class="inline-block bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 font-semibold">
+                Browse Products
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+

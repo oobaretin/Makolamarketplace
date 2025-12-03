@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}A Culinary Journey: Our Fresh Cooked Food Section - Makola Marketplace{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12 max-w-5xl">
+    <!-- Breadcrumb -->
+    <nav class="mb-6 text-sm">
+        <a href="{% url 'products:product_list' %}" class="text-orange-600 hover:text-orange-700">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-gray-600">Blog</span>
+        <span class="mx-2">/</span>
+        <span class="text-gray-600">A Culinary Journey</span>
+    </nav>
+
+    <!-- Blog Post -->
+    <article class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Images -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+            <div class="relative h-80 md:h-96 overflow-hidden">
+                <img src="{% static 'logo/Image_12-2-25_at_3.57_PM_2.jpg' %}" 
+                     alt="Makola Marketplace Cooked Food Area" 
+                     class="w-full h-full object-cover">
+            </div>
+            <div class="relative h-80 md:h-96 overflow-hidden">
+                <img src="{% static 'logo/Image_12-2-25_at_4.11_PM_2.jpg' %}" 
+                     alt="Fresh Cooked Meals at Makola Marketplace" 
+                     class="w-full h-full object-cover">
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="p-8 md:p-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                A Culinary Journey: Our Fresh Cooked Food Section
+            </h1>
+            
+            <div class="prose prose-lg max-w-none">
+                <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                    Step into the heart of Makola Marketplace and discover our vibrant cooked food area, where authentic African flavors come to life. Our dedicated kitchen space is a celebration of traditional cooking methods, bringing you the rich, aromatic dishes that define African cuisine.
+                </p>
+                
+                <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                    From sizzling jollof rice to perfectly seasoned grilled meats, our cooked food section offers ready-to-eat meals that capture the essence of home-cooked African dishes. Each plate is prepared with care, using fresh ingredients sourced directly from our market, ensuring you experience the true taste of Africa right here in Houston.
+                </p>
+                
+                <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                    Whether you're craving a quick lunch, planning a family dinner, or exploring new flavors, our cooked food area provides convenience without compromising on authenticity. Come taste the difference that fresh ingredients and traditional recipes make.
+                </p>
+                
+                <p class="text-gray-600 mb-8 leading-relaxed text-lg">
+                    Our chefs bring years of experience and passion to every dish, ensuring that each meal tells a story of African culinary heritage. From the spicy heat of West African stews to the comforting warmth of East African curries, every bite is a journey through the diverse flavors of the continent.
+                </p>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-200">
+                <a href="{% url 'products:product_list' %}" class="inline-flex items-center text-orange-600 font-semibold hover:text-orange-700 transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </article>
+</div>
+{% endblock %}
+

@@ -30,9 +30,10 @@
                     <a href="{% url 'products:product_list' %}" class="flex items-center hover:opacity-90 transition-opacity">
                         <img src="{% static 'logo/Bold.png' %}" 
                              alt="Makola Marketplace Logo" 
-                             class="h-28 md:h-32 w-auto min-w-[200px] md:min-w-[300px] max-w-[280px] md:max-w-none object-contain drop-shadow-md"
+                             class="h-20 md:h-24 w-auto object-contain"
+                             style="max-height: 80px;"
                              onload="console.log('Logo loaded successfully:', this.src)"
-                             onerror="console.error('Logo failed to load:', this.src); this.src='{% static 'logo/Bold.png' %}';">
+                             onerror="console.error('Logo failed to load:', this.src); alert('Logo path: ' + this.src);">
                     </a>
                 </div>
                 

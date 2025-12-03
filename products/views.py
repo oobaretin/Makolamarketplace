@@ -128,9 +128,10 @@ def product_list_view(request):
     page_obj = paginator.get_page(page_number)
     
     # Get all categories for filter sidebar (show all, even with 0 products)
-    categories = Category.objects.filter(is_active=True).annotate(
+    # Convert to list to ensure queryset is evaluated
+    categories = list(Category.objects.filter(is_active=True).annotate(
         product_count=Count('products', filter=Q(products__is_available=True))
-    ).order_by('name')
+    ).order_by('name'))
     
     # Calculate max price for filter
     max_product_price = Product.objects.filter(is_available=True).aggregate(
@@ -215,9 +216,10 @@ def category_detail_view(request, slug):
     page_obj = paginator.get_page(page_number)
     
     # Get all categories for any filter sidebar (if needed)
-    categories = Category.objects.filter(is_active=True).annotate(
+    # Convert to list to ensure queryset is evaluated
+    categories = list(Category.objects.filter(is_active=True).annotate(
         product_count=Count('products', filter=Q(products__is_available=True))
-    ).order_by('name')
+    ).order_by('name'))
     
     context = {
         'category': category,

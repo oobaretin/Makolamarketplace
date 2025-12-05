@@ -2,6 +2,7 @@
 Views for orders app.
 """
 import stripe
+import logging
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -14,7 +15,12 @@ from cart.utils import get_cart_items, get_cart_total, clear_cart
 from products.models import Product
 
 # Configure Stripe
-stripe.api_key = settings.STRIPE_SECRET_KEY
+if settings.STRIPE_SECRET_KEY:
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+else:
+    logging.warning("STRIPE_SECRET_KEY is not set in settings")
+
+logger = logging.getLogger(__name__)
 
 
 def checkout_view(request):
@@ -32,21 +38,38 @@ def checkout_view(request):
     if request.method == 'POST':
         form = CheckoutForm(request.POST, user=request.user)
         if form.is_valid():
+            # Check if Stripe keys are configured
+            if not settings.STRIPE_SECRET_KEY or not settings.STRIPE_PUBLIC_KEY:
+                logger.error("Stripe keys not configured")
+                messages.error(request, 'Payment system is not configured. Please contact support.')
+                return redirect('cart:cart')
+            
             # Create order
-            order = form.save(commit=False)
-            order.user = request.user if request.user.is_authenticated else None
-            order.total_amount = cart_total
-            order.save()
+            try:
+                order = form.save(commit=False)
+                order.user = request.user if request.user.is_authenticated else None
+                order.total_amount = cart_total
+                order.save()
+            except Exception as e:
+                logger.error(f"Error creating order: {str(e)}")
+                messages.error(request, 'Error creating order. Please try again.')
+                return redirect('cart:cart')
             
             # Create order items
-            for item in cart_items:
-                OrderItem.objects.create(
-                    order=order,
-                    product=item['product'],
-                    product_name=item['product'].name,
-                    quantity=item['quantity'],
-                    price=item['price']
-                )
+            try:
+                for item in cart_items:
+                    OrderItem.objects.create(
+                        order=order,
+                        product=item['product'],
+                        product_name=item['product'].name,
+                        quantity=item['quantity'],
+                        price=item['price']
+                    )
+            except Exception as e:
+                logger.error(f"Error creating order items: {str(e)}")
+                order.delete()
+                messages.error(request, 'Error processing order items. Please try again.')
+                return redirect('cart:cart')
             
             # Create Stripe payment intent
             try:
@@ -67,9 +90,19 @@ def checkout_view(request):
                     'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
                 })
             except stripe.error.StripeError as e:
+                logger.error(f"Stripe error: {str(e)}")
                 messages.error(request, f'Payment error: {str(e)}')
                 order.delete()  # Delete order if payment setup fails
                 return redirect('cart:cart')
+            except Exception as e:
+                logger.error(f"Unexpected error in payment intent creation: {str(e)}")
+                messages.error(request, 'An unexpected error occurred. Please try again.')
+                order.delete()
+                return redirect('cart:cart')
+        else:
+            # Form is invalid
+            logger.warning(f"Checkout form validation failed: {form.errors}")
+            messages.error(request, 'Please correct the errors in the form.')
     else:
         form = CheckoutForm(user=request.user)
     
@@ -172,6 +205,8 @@ def stripe_webhook(request):
             pass
     
     return HttpResponse(status=200)
+
+
 
 
 

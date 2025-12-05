@@ -15,10 +15,11 @@ from cart.utils import get_cart_items, get_cart_total, clear_cart
 from products.models import Product
 
 # Configure Stripe
-if settings.STRIPE_SECRET_KEY:
-    stripe.api_key = settings.STRIPE_SECRET_KEY
+if settings.STRIPE_SECRET_KEY and settings.STRIPE_SECRET_KEY.strip():
+    stripe.api_key = settings.STRIPE_SECRET_KEY.strip()
 else:
     logging.warning("STRIPE_SECRET_KEY is not set in settings")
+    stripe.api_key = None
 
 logger = logging.getLogger(__name__)
 
@@ -84,6 +85,13 @@ def checkout_view(request):
             
             # Create Stripe payment intent
             try:
+                # Verify Stripe is properly configured
+                if not stripe.api_key or stripe.api_key.strip() == '':
+                    logger.error("Stripe API key is not configured")
+                    order.delete()
+                    messages.error(request, 'Payment system is not configured. Please contact support.')
+                    return redirect('cart:cart')
+                
                 # Convert cart_total to cents (ensure it's a number)
                 amount_cents = int(float(cart_total) * 100)
                 
@@ -101,6 +109,14 @@ def checkout_view(request):
                         'user_id': str(order.user.id) if order.user else 'guest',
                     }
                 )
+                
+                # Validate that intent was created successfully
+                if not intent or not hasattr(intent, 'client_secret') or not intent.client_secret:
+                    logger.error(f"Invalid Stripe PaymentIntent response: {intent}")
+                    order.delete()
+                    messages.error(request, 'Failed to initialize payment. Please check your payment configuration.')
+                    return redirect('cart:cart')
+                
                 order.stripe_payment_intent_id = intent.id
                 order.save()
                 

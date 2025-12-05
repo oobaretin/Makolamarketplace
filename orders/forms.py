@@ -14,20 +14,20 @@ class CheckoutForm(forms.ModelForm):
         fields = ['shipping_address', 'phone', 'email', 'notes']
         widgets = {
             'shipping_address': forms.Textarea(attrs={
-                'class': 'form-textarea',
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500',
                 'rows': 4,
                 'placeholder': 'Enter your full shipping address'
             }),
             'phone': forms.TextInput(attrs={
-                'class': 'form-input',
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500',
                 'placeholder': 'Phone number'
             }),
             'email': forms.EmailInput(attrs={
-                'class': 'form-input',
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500',
                 'placeholder': 'Email address'
             }),
             'notes': forms.Textarea(attrs={
-                'class': 'form-textarea',
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500',
                 'rows': 3,
                 'placeholder': 'Special delivery instructions (optional)'
             }),
@@ -44,13 +44,16 @@ class CheckoutForm(forms.ModelForm):
             self.fields['shipping_address'].initial = user.get_full_address()
         
         self.helper = FormHelper()
+        self.helper.form_method = 'post'
         self.helper.layout = Layout(
             'email',
             'phone',
             'shipping_address',
             'notes',
-            Submit('submit', 'Proceed to Payment', css_class='btn btn-primary w-full')
+            Submit('submit', 'Proceed to Payment', css_class='w-full bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 font-semibold transition-colors cursor-pointer')
         )
+
+
 
 
 

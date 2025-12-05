@@ -39,8 +39,9 @@ def checkout_view(request):
         form = CheckoutForm(request.POST, user=request.user)
         if form.is_valid():
             # Check if Stripe keys are configured
-            if not settings.STRIPE_SECRET_KEY or not settings.STRIPE_PUBLIC_KEY:
-                logger.error("Stripe keys not configured")
+            if not settings.STRIPE_SECRET_KEY or not settings.STRIPE_PUBLIC_KEY or \
+               settings.STRIPE_SECRET_KEY.strip() == '' or settings.STRIPE_PUBLIC_KEY.strip() == '':
+                logger.error("Stripe keys not configured or empty")
                 messages.error(request, 'Payment system is not configured. Please contact support.')
                 return redirect('cart:cart')
             

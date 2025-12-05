@@ -57,24 +57,43 @@ def checkout_view(request):
             
             # Create order items
             try:
+                from decimal import Decimal
                 for item in cart_items:
+                    # Ensure price is a Decimal
+                    price = Decimal(str(item['price']))
                     OrderItem.objects.create(
                         order=order,
                         product=item['product'],
                         product_name=item['product'].name,
                         quantity=item['quantity'],
-                        price=item['price']
+                        price=price
                     )
             except Exception as e:
-                logger.error(f"Error creating order items: {str(e)}")
+                logger.error(f"Error creating order items: {str(e)}", exc_info=True)
                 order.delete()
-                messages.error(request, 'Error processing order items. Please try again.')
+                messages.error(request, f'Error processing order items: {str(e)}. Please try again.')
+                return redirect('cart:cart')
+            
+            # Validate cart total before creating payment intent
+            if cart_total <= 0:
+                logger.error(f"Invalid cart total: {cart_total}")
+                order.delete()
+                messages.error(request, 'Cart total is invalid. Please add items to your cart.')
                 return redirect('cart:cart')
             
             # Create Stripe payment intent
             try:
+                # Convert cart_total to cents (ensure it's a number)
+                amount_cents = int(float(cart_total) * 100)
+                
+                if amount_cents < 50:  # Stripe minimum is $0.50
+                    logger.error(f"Amount too small: {amount_cents} cents")
+                    order.delete()
+                    messages.error(request, 'Order total must be at least $0.50.')
+                    return redirect('cart:cart')
+                
                 intent = stripe.PaymentIntent.create(
-                    amount=int(cart_total * 100),  # Convert to cents
+                    amount=amount_cents,
                     currency='usd',
                     metadata={
                         'order_number': order.order_number,
@@ -94,9 +113,14 @@ def checkout_view(request):
                 messages.error(request, f'Payment error: {str(e)}')
                 order.delete()  # Delete order if payment setup fails
                 return redirect('cart:cart')
+            except ValueError as e:
+                logger.error(f"Value error in payment intent creation: {str(e)}")
+                messages.error(request, f'Invalid order amount. Please try again.')
+                order.delete()
+                return redirect('cart:cart')
             except Exception as e:
-                logger.error(f"Unexpected error in payment intent creation: {str(e)}")
-                messages.error(request, 'An unexpected error occurred. Please try again.')
+                logger.error(f"Unexpected error in payment intent creation: {str(e)}", exc_info=True)
+                messages.error(request, f'An unexpected error occurred: {str(e)}. Please try again or contact support.')
                 order.delete()
                 return redirect('cart:cart')
         else:

@@ -174,10 +174,10 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@makolamarketplace.com')
 
-# Stripe Configuration
-STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY', default='')
-STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
-STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+# Stripe Configuration (DISABLED - Shopping List mode only)
+# STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY', default='')
+# STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
+# STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
 
 # Site URL
 SITE_URL = config('SITE_URL', default='http://localhost:8000')

@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
-from .models import Order, OrderItem
 from .forms import CheckoutForm
 from cart.utils import get_cart_items, get_cart_total, clear_cart
 from products.models import Product

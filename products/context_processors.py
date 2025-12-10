@@ -18,3 +18,7 @@ def categories(request):
     }
 
 
+
+
+
+

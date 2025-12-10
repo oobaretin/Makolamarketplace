@@ -113,3 +113,7 @@ class Command(BaseCommand):
         for cat in active_categories:
             self.stdout.write(f'  - {cat.name}')
 
+
+
+
+

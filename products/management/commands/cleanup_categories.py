@@ -133,3 +133,7 @@ class Command(BaseCommand):
             self.stdout.write(f'  • {cat.name} ({product_count} products)')
 
 
+
+
+
+

@@ -28,3 +28,7 @@ class NewsletterSubscriberAdmin(admin.ModelAdmin):
 
 
 
+
+
+
+

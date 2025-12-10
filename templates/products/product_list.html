@@ -297,7 +297,7 @@
                                     {% endif %}
                                 {% endwith %}
                                 
-                                <!-- Price and Add to Cart - Minimal -->
+                                <!-- Price and Add to Shopping List - Minimal -->
                                 <div class="flex items-center justify-between mt-2 pt-2 border-t border-gray-100">
                                     <span class="text-base font-medium text-gray-900">${{ product.price }}</span>
                                     <form method="post" action="{% url 'cart:add_to_cart' product.id %}" class="inline">

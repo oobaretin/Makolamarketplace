@@ -1,7 +1,7 @@
-Django>=5.0,<6.0
+Django>=4.2,<4.3
 psycopg2-binary>=2.9
 Pillow>=9.0
 python-decouple>=3.6
 crispy-bootstrap5>=2024.2
-django-crispy-tailwind>=0.6.0
+django-crispy-tailwind==0.6.1
 # tailwindcss isn't a pip package; ensure frontend build separately
